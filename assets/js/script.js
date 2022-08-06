@@ -1,16 +1,19 @@
 var question1 = {
     question: "flavor text1",
-    answers: ["Option 1", "Option 2", "Option 3", "Option 4"]
+    answers: ["Option 1", "Option 2", "correct1", "Option 4"],
+    correct: "correct1",
 };
 
 var question2 = {
     question: "flavor text2",
-    answers: ["Option 2", "Option 2", "Option 3", "Option 4"]
+    answers: ["Option 2", "correct2", "Option 3", "Option 4"],
+    correct: "correct2",
 };
 
 var question3 = {
     question: "flavor text3",
-    answers: ["Option 3", "Option 2", "Option 3", "Option 4"]
+    answers: ["Option 3", "Option 2", "Option 3", "correct3"],
+    correct: "correct3",
 };
 
 var questionArray = [question1, question2, question3];
@@ -34,10 +37,10 @@ var initializeGame = function () {
     questionEl.textContent = questionArray[questionNumber].question;
 
     var answersEl = document.querySelector("#answers");
-   
-    for (var i = 0; i < questionArray[questionNumber].answers.length; i++){
+
+    for (var i = 0; i < questionArray[questionNumber].answers.length; i++) {
         var answerOptionEl = document.createElement("li");
-        answerOptionEl.setAttribute("data-answer-id", i) 
+        answerOptionEl.setAttribute("data-answer-id", i)
         answerOptionEl.className = "answer-btn"
         answerOptionEl.innerHTML = "<button>" + questionArray[questionNumber].answers[i]; + "</button>";
 
@@ -47,16 +50,23 @@ var initializeGame = function () {
 };
 
 // function that plays the game by reacting to the answers that the player choses
-var playGame = function() {
+var playGame = function (event) {
+    var corIncorEl = document.querySelector("#correct-incorrect")
+    if (event.target.textContent === questionArray[questionNumber - 1].correct) {
+        corIncorEl.textContent = "✅ CORRECT"
+    } else {
+        corIncorEl.textContent = "❌ INCORRECT"
+    }
     var questionEl = document.querySelector("#questions");
     questionEl.textContent = questionArray[questionNumber].question;
 
-    for (var i = 0; i < questionArray[questionNumber].answers.length; i++){
+    for (var i = 0; i < questionArray[questionNumber].answers.length; i++) {
         var updateAnswersEl = document.querySelector(".answer-btn[data-answer-id='" + i + "']");
         updateAnswersEl.innerHTML = "<button class='answer-btn'>" + questionArray[questionNumber].answers[i]; + "</button>";
     };
     questionNumber++
 }
+
 
 
 startEl.addEventListener("click", beginGame);
