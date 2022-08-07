@@ -20,9 +20,13 @@ var questionArray = [question1, question2, question3];
 
 var startEl = document.querySelector("#start-screen");
 var gameEl = document.querySelector("#game-screen");
+var timerEl = document.querySelector("#timer")
+
 var corIncorEl = document.querySelector("#correct-incorrect");
 var endGameEl = document.querySelector("#end-game")
+
 questionNumber = 0
+
 
 // removes the content of the start screen and calls the initializeGame function
 var beginGame = function (event) {
@@ -33,8 +37,24 @@ var beginGame = function (event) {
         initializeGame()
     };
 };
+
+var timer = 90
+var startTimer = function () {
+    var test = setInterval(function () {
+        timerEl.textContent = "timer: " + timer
+        timer--
+        if (timer < 0) {
+            clearInterval(test)
+        }
+    }, 1000)
+
+}
+
+
+
 // adds the html for the first question to appear
 var initializeGame = function () {
+    startTimer()
     // fills in the p tag with the first question
     var questionEl = document.querySelector("#questions");
     questionEl.textContent = questionArray[questionNumber].question;
@@ -82,13 +102,13 @@ var playGame = function (event) {
         corIncorEl.textContent = "";
 
         var initialsEl = document.createElement("input");
-        initialsEl.textContent =
         endGameEl.appendChild(initialsEl);
         var submitInitialsEl = document.createElement("button");
-        submitInitialsEl.textContent = "submit"
+        submitInitialsEl.textContent = "submit";
         endGameEl.appendChild(submitInitialsEl);
-    }
+    };
 }
+
 
 
 
