@@ -37,13 +37,13 @@ var beginGame = function (event) {
         initializeGame()
     };
 };
-
+// starts the timer counting down and gives the condition in which the game will end. time running out or all questions being answered
 var timer = 90
 var startTimer = function () {
     var timerInt = setInterval(function () {
         timerEl.textContent = "timer: " + timer
         timer--
-        if (timer < 0) {
+        if (timer < 0 || questionNumber > questionArray.length) {
             clearInterval(timerInt)
             endGame()
         }
@@ -93,12 +93,12 @@ var playGame = function (event) {
             updateAnswersEl.innerHTML = "<button class='answer-btn'>" + questionArray[questionNumber].answers[i]; + "</button>";
         };
         questionNumber++
-        // end game if all questions have been answered
+        // end game if all questions have been answered. questionNumber++ is needed to make timer stop at game end
     } else if (questionNumber === questionArray.length){
         if (event.target.textContent != questionArray[questionNumber - 1].correct){
             timer = timer - 10;
         };
-        endGame();
+        questionNumber++
     };
 }
 
