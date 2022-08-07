@@ -38,13 +38,14 @@ var beginGame = function (event) {
     };
 };
 
-var timer = 90
+var timer = 3
 var startTimer = function () {
     var test = setInterval(function () {
         timerEl.textContent = "timer: " + timer
         timer--
         if (timer < 0) {
             clearInterval(test)
+            endGame()
         }
     }, 1000)
 
@@ -91,7 +92,12 @@ var playGame = function (event) {
         };
         questionNumber++
     } else {
-        var questionEl = document.querySelector("#questions");
+        endGame()
+    };
+}
+
+var endGame = function() {
+    var questionEl = document.querySelector("#questions");
         questionEl.textContent = "";
 
         for (i = 0; i < 4; i++) {
@@ -106,7 +112,6 @@ var playGame = function (event) {
         var submitInitialsEl = document.createElement("button");
         submitInitialsEl.textContent = "submit";
         endGameEl.appendChild(submitInitialsEl);
-    };
 }
 
 
