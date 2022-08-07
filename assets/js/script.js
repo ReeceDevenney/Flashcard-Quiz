@@ -38,13 +38,13 @@ var beginGame = function (event) {
     };
 };
 
-var timer = 3
+var timer = 90
 var startTimer = function () {
-    var test = setInterval(function () {
+    var timerInt = setInterval(function () {
         timerEl.textContent = "timer: " + timer
         timer--
         if (timer < 0) {
-            clearInterval(test)
+            clearInterval(timerInt)
             endGame()
         }
     }, 1000)
@@ -56,6 +56,7 @@ var startTimer = function () {
 // adds the html for the first question to appear
 var initializeGame = function () {
     startTimer()
+    questionNumber = 0
     // fills in the p tag with the first question
     var questionEl = document.querySelector("#questions");
     questionEl.textContent = questionArray[questionNumber].question;
@@ -81,6 +82,7 @@ var playGame = function (event) {
             corIncorEl.textContent = "✅ CORRECT"
         } else {
             corIncorEl.textContent = "❌ INCORRECT"
+            timer = timer - 10
         }
         // adds the next questions to the p tag
         var questionEl = document.querySelector("#questions");
@@ -91,27 +93,32 @@ var playGame = function (event) {
             updateAnswersEl.innerHTML = "<button class='answer-btn'>" + questionArray[questionNumber].answers[i]; + "</button>";
         };
         questionNumber++
-    } else {
-        endGame()
+        // end game if all questions have been answered
+    } else if (questionNumber === questionArray.length){
+        if (event.target.textContent != questionArray[questionNumber - 1].correct){
+            timer = timer - 10;
+        };
+        endGame();
     };
 }
 
-var endGame = function() {
+var endGame = function () {
     var questionEl = document.querySelector("#questions");
-        questionEl.textContent = "";
+    questionEl.textContent = "";
 
-        for (i = 0; i < 4; i++) {
-            var removeAnswerEl = document.querySelector(".answer-btn");
-            removeAnswerEl.remove();
-        };
+    for (i = 0; i < 4; i++) {
+        var removeAnswerEl = document.querySelector(".answer-btn");
+        removeAnswerEl.remove();
+    };
 
-        corIncorEl.textContent = "";
+    corIncorEl.textContent = "";
 
-        var initialsEl = document.createElement("input");
-        endGameEl.appendChild(initialsEl);
-        var submitInitialsEl = document.createElement("button");
-        submitInitialsEl.textContent = "submit";
-        endGameEl.appendChild(submitInitialsEl);
+    var initialsEl = document.createElement("input");
+    endGameEl.appendChild(initialsEl);
+    var submitInitialsEl = document.createElement("button");
+    submitInitialsEl.textContent = "submit";
+    endGameEl.appendChild(submitInitialsEl);
+
 }
 
 
