@@ -83,6 +83,7 @@ var playGame = function (event) {
         } else {
             corIncorEl.textContent = "❌ INCORRECT"
             timer = timer - 10
+            timerEl.textContent = "timer: " + timer
         }
         // adds the next questions to the p tag
         var questionEl = document.querySelector("#questions");
@@ -97,6 +98,7 @@ var playGame = function (event) {
     } else if (questionNumber === questionArray.length){
         if (event.target.textContent != questionArray[questionNumber - 1].correct){
             timer = timer - 10;
+            timerEl.textContent = "timer: " + timer
         };
         questionNumber++
     };
