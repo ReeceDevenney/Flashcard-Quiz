@@ -185,7 +185,7 @@ var returnMenu = function (event) {
         };
 
         leaderboardHeaderEl.textContent = ""
-        returnEl.remove()
+        returnEl.innerHTML = ""
     };
 }
 
