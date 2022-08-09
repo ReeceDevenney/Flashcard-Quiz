@@ -18,6 +18,8 @@ var question3 = {
 
 var questionArray = [question1, question2, question3];
 
+highScoreArray = []
+
 var startEl = document.querySelector("#start-screen");
 var gameEl = document.querySelector("#game-screen");
 var timerEl = document.querySelector("#timer")
@@ -105,14 +107,12 @@ var playGame = function (event) {
             timerEl.textContent = "timer: " + timer
         };
         questionNumber++
-        endGame()
     };
 }
 
 var endGame = function () {
-        endGameEl.style.display === "inline"
-        console.log()
-        console.log(endGameEl.style.display)
+        loadTask();
+        endGameEl.style.display = "inline"
         var questionEl = document.querySelector("#questions");
         questionEl.textContent = "";
 
@@ -133,7 +133,7 @@ var endGame = function () {
         timer = timer + 1
     }
 
-highScoreArray = []
+
 var goToLeaderboard = function (event) {
     var initialsInputEl = document.querySelector(".initials");
     event.preventDefault();
@@ -157,7 +157,7 @@ var createLeaderboard = function () {
 
     // creats the list of highscores
     var scoresEl = document.querySelector("#scoreboard");
-    for (var i = 1; i < highScoreArray.length; i++) {
+    for (var i = 0; i < highScoreArray.length; i++) {
         var scoreEntryEl = document.createElement("li");
         scoreEntryEl.textContent = highScoreArray[i].name + ":    " + highScoreArray[i].score
 
@@ -174,7 +174,7 @@ var returnMenu = function (event) {
     if (targetsEl.matches("button")) {
         startEl.style.display = "inline";
 
-        for (i = 1; i < highScoreArray.length; i++) {
+        for (i = 0; i < highScoreArray.length; i++) {
             var removescoreEl = document.querySelector("li");
             removescoreEl.remove();
         };
@@ -192,10 +192,13 @@ var saveTasks = function () {
 var loadTask = function () {
     var pastscores = localStorage.getItem("highScoreArray")
     pastscores = JSON.parse(pastscores)
-    highScoreArray = pastscores
+    if (pastscores) {
+        highScoreArray = pastscores
+    }
+    
 };
 
-loadTask();
+
 
 startEl.addEventListener("click", beginGame);
 gameEl.addEventListener("click", playGame);
