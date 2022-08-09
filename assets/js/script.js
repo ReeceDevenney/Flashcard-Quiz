@@ -145,8 +145,9 @@ var goToLeaderboard = function (event) {
         score: timer
     }
     highScoreArray.push(gameStats);
-    highScoreArray.sort((a,b) => b.score-a.score)
-    saveTasks()
+    highScoreArray.sort((a,b) => b.score-a.score);
+    highScoreArray = highScoreArray.slice(0,5);
+    saveTasks();
 
     endGameEl.style.display = "none"
 
@@ -201,8 +202,6 @@ var loadTask = function () {
     }
     
 };
-
-
 
 startEl.addEventListener("click", beginGame);
 gameEl.addEventListener("click", playGame);
