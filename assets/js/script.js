@@ -99,39 +99,42 @@ var playGame = function (event) {
         };
         questionNumber++
         // end game if all questions have been answered. questionNumber++ is needed to make timer stop at game end
-    } else if (questionNumber === questionArray.length){
-        if (event.target.textContent != questionArray[questionNumber - 1].correct){
+    } else if (questionNumber === questionArray.length) {
+        if (event.target.textContent != questionArray[questionNumber - 1].correct) {
             timer = timer - 10;
             timerEl.textContent = "timer: " + timer
         };
         questionNumber++
+        endGame()
     };
 }
 
 var endGame = function () {
-    var questionEl = document.querySelector("#questions");
-    questionEl.textContent = "";
+        endGameEl.style.display === "inline"
+        console.log()
+        console.log(endGameEl.style.display)
+        var questionEl = document.querySelector("#questions");
+        questionEl.textContent = "";
 
-    for (i = 0; i < 4; i++) {
-        var removeAnswerEl = document.querySelector(".answer-btn");
-        removeAnswerEl.remove();
-    };
+        for (i = 0; i < 4; i++) {
+            var removeAnswerEl = document.querySelector(".answer-btn");
+            removeAnswerEl.remove();
+        };
 
-    corIncorEl.textContent = "";
+        corIncorEl.textContent = "";
 
-    var initialsEl = document.createElement("input");
-    initialsEl.className = "initials"
-    endGameEl.appendChild(initialsEl);
-    var submitInitialsEl = document.createElement("button");
-    submitInitialsEl.textContent = "submit";
-    endGameEl.appendChild(submitInitialsEl);
+        var initialsEl = document.createElement("input");
+        initialsEl.className = "initials"
+        endGameEl.appendChild(initialsEl);
+        var submitInitialsEl = document.createElement("button");
+        submitInitialsEl.textContent = "submit";
+        endGameEl.appendChild(submitInitialsEl);
 
-    timer = timer + 1
-
-}
+        timer = timer + 1
+    }
 
 highScoreArray = []
-var goToLeaderboard = function(event) {
+var goToLeaderboard = function (event) {
     var initialsInputEl = document.querySelector(".initials");
     event.preventDefault();
     var gameStats = {
@@ -147,9 +150,9 @@ var goToLeaderboard = function(event) {
 }
 
 
-var createLeaderboard = function (){
+var createLeaderboard = function () {
     //creates the leaderboard header
-    
+
     leaderboardHeaderEl.textContent = "YOUR SCORES!"
 
     // creats the list of highscores
@@ -165,9 +168,8 @@ var createLeaderboard = function (){
     returnEl.innerHTML = "<button>MainMenu</button>"
 };
 
-var returnMenu = function(event) {
+var returnMenu = function (event) {
     var targetsEl = event.target;
-    console.log(event.target)
 
     if (targetsEl.matches("button")) {
         startEl.style.display = "inline";
@@ -176,16 +178,16 @@ var returnMenu = function(event) {
             var removescoreEl = document.querySelector("li");
             removescoreEl.remove();
         };
-        
+
         leaderboardHeaderEl.textContent = ""
         returnEl.remove()
     };
 }
 
 
-var saveTasks = function() {
+var saveTasks = function () {
     localStorage.setItem("highScoreArray", JSON.stringify(highScoreArray));
-  }
+}
 
 var loadTask = function () {
     var pastscores = localStorage.getItem("highScoreArray")
