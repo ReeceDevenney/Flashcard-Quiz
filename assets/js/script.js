@@ -21,6 +21,9 @@ var questionArray = [question1, question2, question3];
 var startEl = document.querySelector("#start-screen");
 var gameEl = document.querySelector("#game-screen");
 var timerEl = document.querySelector("#timer")
+var leaderboardEl = document.querySelector("#leaderboard")
+var leaderboardHeaderEl = document.querySelector("#leaderboard-header");
+var returnEl = document.querySelector("#main-menu-btn")
 
 var corIncorEl = document.querySelector("#correct-incorrect");
 var endGameEl = document.querySelector("#end-game")
@@ -57,6 +60,7 @@ var startTimer = function () {
 var initializeGame = function () {
     startTimer()
     questionNumber = 0
+    timer = 90
     // fills in the p tag with the first question
     var questionEl = document.querySelector("#questions");
     questionEl.textContent = questionArray[questionNumber].question;
@@ -116,16 +120,82 @@ var endGame = function () {
     corIncorEl.textContent = "";
 
     var initialsEl = document.createElement("input");
+    initialsEl.className = "initials"
     endGameEl.appendChild(initialsEl);
     var submitInitialsEl = document.createElement("button");
     submitInitialsEl.textContent = "submit";
     endGameEl.appendChild(submitInitialsEl);
 
+    timer = timer + 1
+
+}
+
+highScoreArray = []
+var goToLeaderboard = function(event) {
+    var initialsInputEl = document.querySelector(".initials");
+    event.preventDefault();
+    var gameStats = {
+        name: initialsInputEl.value,
+        score: timer
+    }
+    highScoreArray.push(gameStats)
+    saveTasks()
+
+    endGameEl.style.display = "none"
+
+    createLeaderboard();
 }
 
 
+var createLeaderboard = function (){
+    //creates the leaderboard header
+    
+    leaderboardHeaderEl.textContent = "YOUR SCORES!"
+
+    // creats the list of highscores
+    var scoresEl = document.querySelector("#scoreboard");
+    for (var i = 1; i < highScoreArray.length; i++) {
+        var scoreEntryEl = document.createElement("li");
+        scoreEntryEl.textContent = highScoreArray[i].name + ":    " + highScoreArray[i].score
+
+        scoresEl.appendChild(scoreEntryEl);
+    };
+
+    returnEl.className = "return-btn"
+    returnEl.innerHTML = "<button>MainMenu</button>"
+};
+
+var returnMenu = function(event) {
+    var targetsEl = event.target;
+    console.log(event.target)
+
+    if (targetsEl.matches("button")) {
+        startEl.style.display = "inline";
+
+        for (i = 1; i < highScoreArray.length; i++) {
+            var removescoreEl = document.querySelector("li");
+            removescoreEl.remove();
+        };
+        
+        leaderboardHeaderEl.textContent = ""
+        returnEl.remove()
+    };
+}
 
 
+var saveTasks = function() {
+    localStorage.setItem("highScoreArray", JSON.stringify(highScoreArray));
+  }
+
+var loadTask = function () {
+    var pastscores = localStorage.getItem("highScoreArray")
+    pastscores = JSON.parse(pastscores)
+    highScoreArray = pastscores
+};
+
+loadTask();
 
 startEl.addEventListener("click", beginGame);
 gameEl.addEventListener("click", playGame);
+endGameEl.addEventListener("submit", goToLeaderboard)
+leaderboardEl.addEventListener("click", returnMenu)
