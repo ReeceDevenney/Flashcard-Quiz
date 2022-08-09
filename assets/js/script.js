@@ -112,7 +112,17 @@ var playGame = function (event) {
 
 var endGame = function () {
         loadTask();
-        endGameEl.style.display = "inline"
+        if (endGameEl.style.display === "none"){
+            endGameEl.style.display = "inline"
+        } else {
+            var initialsEl = document.createElement("input");
+            initialsEl.className = "initials"
+            endGameEl.appendChild(initialsEl);
+            var submitInitialsEl = document.createElement("button");
+            submitInitialsEl.textContent = "submit";
+            endGameEl.appendChild(submitInitialsEl);
+        }
+        corIncorEl.textContent = "";
         var questionEl = document.querySelector("#questions");
         questionEl.textContent = "";
 
@@ -121,14 +131,7 @@ var endGame = function () {
             removeAnswerEl.remove();
         };
 
-        corIncorEl.textContent = "";
-
-        var initialsEl = document.createElement("input");
-        initialsEl.className = "initials"
-        endGameEl.appendChild(initialsEl);
-        var submitInitialsEl = document.createElement("button");
-        submitInitialsEl.textContent = "submit";
-        endGameEl.appendChild(submitInitialsEl);
+        
 
         timer = timer + 1
     }
@@ -141,7 +144,8 @@ var goToLeaderboard = function (event) {
         name: initialsInputEl.value,
         score: timer
     }
-    highScoreArray.push(gameStats)
+    highScoreArray.push(gameStats);
+    highScoreArray.sort((a,b) => b.score-a.score)
     saveTasks()
 
     endGameEl.style.display = "none"
@@ -165,7 +169,7 @@ var createLeaderboard = function () {
     };
 
     returnEl.className = "return-btn"
-    returnEl.innerHTML = "<button>MainMenu</button>"
+    returnEl.innerHTML = "<button>Main Menu</button>"
 };
 
 var returnMenu = function (event) {
