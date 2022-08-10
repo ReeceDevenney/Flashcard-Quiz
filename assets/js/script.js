@@ -1,3 +1,4 @@
+// the array that the questions are pulled from
 var questionArray = [
     {
         question: "What symbol is used to contain the values of an Array?",
@@ -17,7 +18,7 @@ var questionArray = [
     {
         question: "what is the correct output of console.log('1'+'1')?",
         answers: ["2", "'1'+'1'", "11", "10"],
-        correct: "11"  
+        correct: "11"
     },
     {
         question: "what does CSS stand for?",
@@ -46,26 +47,26 @@ var questionArray = [
     }
 
 ];
-
+// the array that the highscores from local storage are pulled to
 highScoreArray = []
 
+//selects the various parts of the HTML document
 var startEl = document.querySelector("#start-screen");
 var gameEl = document.querySelector("#game-screen");
 var timerEl = document.querySelector("#timer")
 var leaderboardEl = document.querySelector("#leaderboard")
 var leaderboardHeaderEl = document.querySelector("#leaderboard-header");
 var returnEl = document.querySelector("#main-menu-btn")
-
 var corIncorEl = document.querySelector("#correct-incorrect");
 var endGameEl = document.querySelector("#end-game")
 
+// tracks which question the player is on
 questionNumber = 0
-
 
 // removes the content of the start screen and calls the initializeGame function
 var beginGame = function (event) {
     var targetEl = event.target;
-
+    // if the start button is pressed, make the content of the main screen not visable
     if (targetEl.matches(".start-btn")) {
         startEl.style.display = "none";
         initializeGame()
@@ -77,6 +78,7 @@ var startTimer = function () {
     var timerInt = setInterval(function () {
         timerEl.textContent = "timer: " + timer
         timer--
+        //run if the timer hits zero or all questions are answered
         if (timer < 0 || questionNumber > questionArray.length) {
             clearInterval(timerInt)
             endGame()
@@ -85,10 +87,9 @@ var startTimer = function () {
 
 }
 
-
-
 // adds the html for the first question to appear
 var initializeGame = function () {
+    //reset the values for new playthroughs
     startTimer()
     questionNumber = 0
     timer = 90
@@ -141,9 +142,11 @@ var playGame = function (event) {
 
 var endGame = function () {
     loadTask();
+    // used in the case the game is being played again to reset the display value
     if (endGameEl.style.display === "none") {
         endGameEl.style.display = "inline"
     } else {
+        //creats the elements on this section on the first playthrough
         var initialsEl = document.createElement("input");
         initialsEl.className = "initials"
         endGameEl.appendChild(initialsEl);
@@ -151,6 +154,7 @@ var endGame = function () {
         submitInitialsEl.textContent = "submit";
         endGameEl.appendChild(submitInitialsEl);
     }
+    // removes the quiz questions and answers from the page
     corIncorEl.textContent = "";
     var questionEl = document.querySelector("#questions");
     questionEl.textContent = "";
@@ -159,30 +163,28 @@ var endGame = function () {
         var removeAnswerEl = document.querySelector(".answer-btn");
         removeAnswerEl.remove();
     };
-
-
-
+    // added because the time showing and the internal time would desync by 1 second after the game ended
     timer = timer + 1
 }
-
 
 var goToLeaderboard = function (event) {
     var initialsInputEl = document.querySelector(".initials");
     event.preventDefault();
+    // stores the values of the players name and thier score
     var gameStats = {
         name: initialsInputEl.value,
         score: timer
     }
+    // pushes the values to the master array, then sorts them highest to lowest based on score, then keeps the top 5
     highScoreArray.push(gameStats);
     highScoreArray.sort((a, b) => b.score - a.score);
     highScoreArray = highScoreArray.slice(0, 5);
     saveTasks();
-
+    // hides the contents of the endGame section
     endGameEl.style.display = "none"
 
     createLeaderboard();
 }
-
 
 var createLeaderboard = function () {
     //creates the leaderboard header
@@ -197,17 +199,17 @@ var createLeaderboard = function () {
 
         scoresEl.appendChild(scoreEntryEl);
     };
-
+    // creates the button to return to the main menu
     returnEl.className = "return-btn"
     returnEl.innerHTML = "<button>Main Menu</button>"
 };
 
 var returnMenu = function (event) {
     var targetsEl = event.target;
-
+    // if the Main Menu button is pressed, make the main menu screen visable again
     if (targetsEl.matches("button")) {
         startEl.style.display = "inline";
-
+        // remove the content of the highscore screen from the page
         for (i = 0; i < highScoreArray.length; i++) {
             var removescoreEl = document.querySelector("li");
             removescoreEl.remove();
@@ -218,14 +220,16 @@ var returnMenu = function (event) {
     };
 }
 
-
+// save the task from local storage
 var saveTasks = function () {
     localStorage.setItem("highScoreArray", JSON.stringify(highScoreArray));
 }
 
+// load the task from local storage
 var loadTask = function () {
     var pastscores = localStorage.getItem("highScoreArray")
     pastscores = JSON.parse(pastscores)
+    // only run if there are values to load, as if not highScoreArray will end up = null
     if (pastscores) {
         highScoreArray = pastscores
     }

@@ -70,4 +70,10 @@ li {
     justify-content: center;
 }
 
+#correct-incorrect {
+    font-size: 28px;
+    display: flex;
+    justify-content: center;
+    margin: auto;
+}
 
