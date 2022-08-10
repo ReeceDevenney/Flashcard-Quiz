@@ -1,22 +1,51 @@
-var question1 = {
-    question: "flavor text1",
-    answers: ["Option 1", "Option 2", "correct1", "Option 4"],
-    correct: "correct1",
-};
+var questionArray = [
+    {
+        question: "What symbol is used to contain the values of an Array?",
+        answers: ["()", "{}", "[]", ".."],
+        correct: "[]"
+    },
+    {
+        question: "What does HTML stand for?",
+        answers: ["Hypertext Markup Language", "How to Make Lasagne", "Hypertext Markdown Language", "Hypertext Markup Link"],
+        correct: "Hypertext Markup Language"
+    },
+    {
+        question: "What does Javascript do on a webpage?",
+        answers: ["adds overall styling", "adds the starting text of the page", "It doesn't affect webpages", "Adds functionality and user interactivity"],
+        correct: "Adds functionality and user interactivity"
+    },
+    {
+        question: "what is the correct output of console.log('1'+'1')?",
+        answers: ["2", "'1'+'1'", "11", "10"],
+        correct: "11"  
+    },
+    {
+        question: "what does CSS stand for?",
+        answers: ["Cryptic Style Sheets", "Coding Style Sheets", "Cascading Style Sheets", "Cool Style Sheets"],
+        correct: "Cascading Style Sheets"
+    },
+    {
+        question: "Which HTML tag is used to connect the HTML document to the Javascript document?",
+        answers: ["Script", "Link", "Meta", "Body"],
+        correct: "Script"
+    },
+    {
+        question: "Which symbol selects a class in CSS?",
+        answers: ["!", "#", "$", "."],
+        correct: "."
+    },
+    {
+        question: "What is the correct way to write multi-word variables in Javascript?",
+        answers: ["Cobra Case", "Camel Case", "Pascal Case", "Zebra Case"],
+        correct: "Camel Case"
+    },
+    {
+        question: "what is the outter most box in the CSS box model?",
+        answers: ["Blank Space", "Padding", "Content", "Margin"],
+        correct: "Margin"
+    }
 
-var question2 = {
-    question: "flavor text2",
-    answers: ["Option 2", "correct2", "Option 3", "Option 4"],
-    correct: "correct2",
-};
-
-var question3 = {
-    question: "flavor text3",
-    answers: ["Option 3", "Option 2", "Option 3", "correct3"],
-    correct: "correct3",
-};
-
-var questionArray = [question1, question2, question3];
+];
 
 highScoreArray = []
 
@@ -111,30 +140,30 @@ var playGame = function (event) {
 }
 
 var endGame = function () {
-        loadTask();
-        if (endGameEl.style.display === "none"){
-            endGameEl.style.display = "inline"
-        } else {
-            var initialsEl = document.createElement("input");
-            initialsEl.className = "initials"
-            endGameEl.appendChild(initialsEl);
-            var submitInitialsEl = document.createElement("button");
-            submitInitialsEl.textContent = "submit";
-            endGameEl.appendChild(submitInitialsEl);
-        }
-        corIncorEl.textContent = "";
-        var questionEl = document.querySelector("#questions");
-        questionEl.textContent = "";
-
-        for (i = 0; i < 4; i++) {
-            var removeAnswerEl = document.querySelector(".answer-btn");
-            removeAnswerEl.remove();
-        };
-
-        
-
-        timer = timer + 1
+    loadTask();
+    if (endGameEl.style.display === "none") {
+        endGameEl.style.display = "inline"
+    } else {
+        var initialsEl = document.createElement("input");
+        initialsEl.className = "initials"
+        endGameEl.appendChild(initialsEl);
+        var submitInitialsEl = document.createElement("button");
+        submitInitialsEl.textContent = "submit";
+        endGameEl.appendChild(submitInitialsEl);
     }
+    corIncorEl.textContent = "";
+    var questionEl = document.querySelector("#questions");
+    questionEl.textContent = "";
+
+    for (i = 0; i < 4; i++) {
+        var removeAnswerEl = document.querySelector(".answer-btn");
+        removeAnswerEl.remove();
+    };
+
+
+
+    timer = timer + 1
+}
 
 
 var goToLeaderboard = function (event) {
@@ -145,8 +174,8 @@ var goToLeaderboard = function (event) {
         score: timer
     }
     highScoreArray.push(gameStats);
-    highScoreArray.sort((a,b) => b.score-a.score);
-    highScoreArray = highScoreArray.slice(0,5);
+    highScoreArray.sort((a, b) => b.score - a.score);
+    highScoreArray = highScoreArray.slice(0, 5);
     saveTasks();
 
     endGameEl.style.display = "none"
@@ -200,7 +229,7 @@ var loadTask = function () {
     if (pastscores) {
         highScoreArray = pastscores
     }
-    
+
 };
 
 startEl.addEventListener("click", beginGame);
